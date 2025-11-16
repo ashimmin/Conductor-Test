@@ -4,71 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List</title>
+    <link rel="stylesheet" href="frosted-ui-base.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="galaxy-background"></div>
-    <div id="app" class="app-container">
-        <div class="tabs-container frosted-glass">
-            <button class="tab-button active" data-tab="next-actions">Next Actions</button>
-            <button class="tab-button" data-tab="waiting-on">Waiting On</button>
-            <button class="tab-button" data-tab="someday-maybe">Someday Maybe</button>
+    <div class="frosted-ui dark-theme" data-has-background="true" data-accent-color="blue">
+        <div class="fui-TabsList">
+            <button class="fui-TabsTrigger active" data-tab="next-actions">Next Actions</button>
+            <button class="fui-TabsTrigger" data-tab="waiting-on">Waiting On</button>
+            <button class="fui-TabsTrigger" data-tab="someday-maybe">Someday Maybe</button>
         </div>
 
-        <div class="table-container">
-            <!-- Next Actions Table -->
-            <div id="next-actions" class="tab-content active">
-                <table class="task-table">
-                    <thead>
-                        <tr>
-                            <th class="col-date">Date</th>
-                            <th class="col-task">Task</th>
-                            <th class="col-time">Time</th>
-                            <th class="col-project">Project</th>
-                        </tr>
-                    </thead>
-                    <tbody id="next-actions-body">
-                        <!-- Tasks will be inserted here -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Waiting On Table -->
-            <div id="waiting-on" class="tab-content">
-                <table class="task-table">
-                    <thead>
-                        <tr>
-                            <th class="col-followup">Follow Up On</th>
-                            <th class="col-task">Task</th>
-                            <th class="col-notes">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody id="waiting-on-body">
-                        <!-- Tasks will be inserted here -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Someday Maybe Table -->
-            <div id="someday-maybe" class="tab-content">
-                <table class="task-table">
-                    <thead>
-                        <tr>
-                            <th class="col-task">Task</th>
-                            <th class="col-notes">Notes</th>
-                            <th class="col-action"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="someday-maybe-body">
-                        <!-- Tasks will be inserted here -->
-                    </tbody>
-                </table>
-            </div>
+        <!-- Next Actions Table -->
+        <div id="next-actions" class="tab-content active">
+            <table class="fui-TableTable">
+                <thead class="fui-TableHeader">
+                    <tr class="fui-TableRow">
+                        <th class="fui-TableColumnHeaderCell col-date">Date</th>
+                        <th class="fui-TableColumnHeaderCell col-task">Task</th>
+                        <th class="fui-TableColumnHeaderCell col-time">Time</th>
+                        <th class="fui-TableColumnHeaderCell col-project">Project</th>
+                    </tr>
+                </thead>
+                <tbody class="fui-TableBody" id="next-actions-body">
+                    <!-- Tasks will be inserted here -->
+                </tbody>
+            </table>
         </div>
 
-        <div class="input-container frosted-glass">
-            <input type="text" id="command-input" placeholder="Add a task or type / for commands..." />
+        <!-- Waiting On Table -->
+        <div id="waiting-on" class="tab-content">
+            <table class="fui-TableTable">
+                <thead class="fui-TableHeader">
+                    <tr class="fui-TableRow">
+                        <th class="fui-TableColumnHeaderCell col-followup">Follow Up On</th>
+                        <th class="fui-TableColumnHeaderCell col-task">Task</th>
+                        <th class="fui-TableColumnHeaderCell col-notes">Notes</th>
+                    </tr>
+                </thead>
+                <tbody class="fui-TableBody" id="waiting-on-body">
+                    <!-- Tasks will be inserted here -->
+                </tbody>
+            </table>
         </div>
+
+        <!-- Someday Maybe Table -->
+        <div id="someday-maybe" class="tab-content">
+            <table class="fui-TableTable">
+                <thead class="fui-TableHeader">
+                    <tr class="fui-TableRow">
+                        <th class="fui-TableColumnHeaderCell col-task">Task</th>
+                        <th class="fui-TableColumnHeaderCell col-notes">Notes</th>
+                        <th class="fui-TableColumnHeaderCell col-action"></th>
+                    </tr>
+                </thead>
+                <tbody class="fui-TableBody" id="someday-maybe-body">
+                    <!-- Tasks will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <input type="text" class="fui-TextField" id="command-input" placeholder="Add a task or type / for commands..." />
     </div>
 
     <script src="dateParser.js"></script>
