@@ -54,19 +54,45 @@ class TaskManager {
 
     setupParallaxEffect() {
         const app = document.querySelector('.frosted-ui');
+        const galaxyBg = document.querySelector('.galaxy-background');
 
         document.addEventListener('mousemove', (e) => {
             const x = e.clientX / window.innerWidth;
             const y = e.clientY / window.innerHeight;
 
+            // Parallax tilt effect
             const rotateX = (y - 0.5) * 10; // -5 to 5 degrees
             const rotateY = (x - 0.5) * -10; // -5 to 5 degrees
 
             app.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+            // Galaxy holo effect - update CSS variables for mouse position
+            const mx = (x * 100).toFixed(1);
+            const my = (y * 100).toFixed(1);
+
+            galaxyBg.style.setProperty('--mx', `${mx}%`);
+            galaxyBg.style.setProperty('--my', `${my}%`);
+
+            // Additional variables used by cosmos holo effect
+            galaxyBg.style.setProperty('--pointer-from-left', x.toFixed(3));
+            galaxyBg.style.setProperty('--pointer-from-top', y.toFixed(3));
+
+            // Calculate distance from center (0 at center, 1 at corners)
+            const dx = x - 0.5;
+            const dy = y - 0.5;
+            const distanceFromCenter = Math.sqrt(dx * dx + dy * dy) * Math.sqrt(2);
+            galaxyBg.style.setProperty('--pointer-from-center', distanceFromCenter.toFixed(3));
         });
 
         document.addEventListener('mouseleave', () => {
             app.style.transform = 'rotateX(0deg) rotateY(0deg)';
+
+            // Reset galaxy effect to center
+            galaxyBg.style.setProperty('--mx', '50%');
+            galaxyBg.style.setProperty('--my', '50%');
+            galaxyBg.style.setProperty('--pointer-from-left', '0.5');
+            galaxyBg.style.setProperty('--pointer-from-top', '0.5');
+            galaxyBg.style.setProperty('--pointer-from-center', '0');
         });
     }
 
