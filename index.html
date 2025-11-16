@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,7 +24,7 @@
                     <thead>
                         <tr>
                             <th class="col-date">Date</th>
-                            <th class="col-task">Task</th>
+                            <th class="col-task">Action</th>
                             <th class="col-time">Time</th>
                             <th class="col-project">Project</th>
                         </tr>
@@ -65,9 +68,10 @@
             </div>
         </div>
 
-        <div class="input-container frosted-glass">
-            <input type="text" id="command-input" placeholder="Add a task or type / for commands..." />
-        </div>
+    </div>
+
+    <div class="input-container frosted-glass">
+        <input type="text" id="command-input" placeholder="Input new task..." />
     </div>
 
     <script src="dateParser.js"></script>

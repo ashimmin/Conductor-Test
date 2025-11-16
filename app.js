@@ -16,7 +16,6 @@ class TaskManager {
     init() {
         this.loadTasks();
         this.setupEventListeners();
-        this.setupParallaxEffect();
         this.renderTasks();
     }
 
@@ -49,24 +48,6 @@ class TaskManager {
                 !e.target.hasAttribute('contenteditable')) {
                 this.clearFocus();
             }
-        });
-    }
-
-    setupParallaxEffect() {
-        const app = document.querySelector('.app-container');
-
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-
-            const rotateX = (y - 0.5) * 10; // -5 to 5 degrees
-            const rotateY = (x - 0.5) * -10; // -5 to 5 degrees
-
-            app.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-
-        document.addEventListener('mouseleave', () => {
-            app.style.transform = 'rotateX(0deg) rotateY(0deg)';
         });
     }
 
