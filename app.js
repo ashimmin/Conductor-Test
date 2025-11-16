@@ -22,7 +22,7 @@ class TaskManager {
 
     setupEventListeners() {
         // Tab navigation
-        document.querySelectorAll('.tab-button').forEach(button => {
+        document.querySelectorAll('.fui-TabsTrigger').forEach(button => {
             button.addEventListener('click', (e) => {
                 this.switchTab(e.target.dataset.tab);
             });
@@ -53,7 +53,7 @@ class TaskManager {
     }
 
     setupParallaxEffect() {
-        const app = document.querySelector('.app-container');
+        const app = document.querySelector('.frosted-ui');
 
         document.addEventListener('mousemove', (e) => {
             const x = e.clientX / window.innerWidth;
@@ -117,7 +117,7 @@ class TaskManager {
 
     switchTab(tabName) {
         // Update tab buttons
-        document.querySelectorAll('.tab-button').forEach(btn => {
+        document.querySelectorAll('.fui-TabsTrigger').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.tab === tabName);
         });
 
@@ -146,7 +146,7 @@ class TaskManager {
 
     moveFocus(direction) {
         const tbody = document.querySelector(`#${this.currentTab}-body`);
-        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const rows = Array.from(tbody.querySelectorAll('.fui-TableRow'));
 
         if (rows.length === 0) return;
 
@@ -170,7 +170,7 @@ class TaskManager {
     }
 
     clearFocus() {
-        const rows = document.querySelectorAll('.task-table tbody tr');
+        const rows = document.querySelectorAll('.fui-TableBody .fui-TableRow');
         rows.forEach(row => row.classList.remove('focused'));
         this.focusedRowIndex = -1;
     }
@@ -200,7 +200,7 @@ class TaskManager {
 
             if (this.focusedRowIndex >= 0) {
                 setTimeout(() => {
-                    const rows = document.querySelectorAll(`#${this.currentTab}-body tr`);
+                    const rows = document.querySelectorAll(`#${this.currentTab}-body .fui-TableRow`);
                     if (rows[this.focusedRowIndex]) {
                         rows[this.focusedRowIndex].classList.add('focused');
                     }
@@ -264,7 +264,7 @@ class TaskManager {
 
         this.tasks['next-actions'].forEach((task, index) => {
             const row = document.createElement('tr');
-            row.className = task.state === 'done' ? 'done' : '';
+            row.className = `fui-TableRow ${task.state === 'done' ? 'done' : ''}`;
 
             const dateDisplay = DateParser.getDateDisplay(task.date);
             const isOverdue = DateParser.isOverdue(task.date);
@@ -277,10 +277,10 @@ class TaskManager {
             }
 
             row.innerHTML = `
-                <td class="col-date ${dateClass}" contenteditable="true" data-field="date">${dateDisplay}</td>
-                <td class="col-task" contenteditable="true" data-field="task">${task.task}</td>
-                <td class="col-time" contenteditable="true" data-field="time">${task.time}</td>
-                <td class="col-project" contenteditable="true" data-field="project">${task.project}</td>
+                <td class="fui-TableCell col-date ${dateClass}" contenteditable="true" data-field="date">${dateDisplay}</td>
+                <td class="fui-TableCell fui-TableCell-task col-task" contenteditable="true" data-field="task">${task.task}</td>
+                <td class="fui-TableCell col-time" contenteditable="true" data-field="time">${task.time}</td>
+                <td class="fui-TableCell col-project" contenteditable="true" data-field="project">${task.project}</td>
             `;
 
             this.setupCellEditing(row, 'next-actions', index);
@@ -294,12 +294,12 @@ class TaskManager {
 
         this.tasks['waiting-on'].forEach((task, index) => {
             const row = document.createElement('tr');
-            row.className = task.state === 'done' ? 'done' : '';
+            row.className = `fui-TableRow ${task.state === 'done' ? 'done' : ''}`;
 
             row.innerHTML = `
-                <td class="col-followup" contenteditable="true" data-field="followUp">${task.followUp}</td>
-                <td class="col-task" contenteditable="true" data-field="task">${task.task}</td>
-                <td class="col-notes" contenteditable="true" data-field="notes">${task.notes}</td>
+                <td class="fui-TableCell col-followup" contenteditable="true" data-field="followUp">${task.followUp}</td>
+                <td class="fui-TableCell fui-TableCell-task col-task" contenteditable="true" data-field="task">${task.task}</td>
+                <td class="fui-TableCell col-notes" contenteditable="true" data-field="notes">${task.notes}</td>
             `;
 
             this.setupCellEditing(row, 'waiting-on', index);
@@ -313,19 +313,19 @@ class TaskManager {
 
         this.tasks['someday-maybe'].forEach((task, index) => {
             const row = document.createElement('tr');
-            row.className = task.state === 'done' ? 'done' : '';
+            row.className = `fui-TableRow ${task.state === 'done' ? 'done' : ''}`;
 
             const actionCell = document.createElement('td');
-            actionCell.className = 'col-action';
+            actionCell.className = 'fui-TableCell col-action';
             const moveBtn = document.createElement('button');
-            moveBtn.className = 'move-to-actions-btn';
+            moveBtn.className = 'move-to-actions-btn fui-Button fui-variant-soft';
             moveBtn.textContent = 'Move to Actions';
             moveBtn.onclick = () => this.moveToActions(index);
             actionCell.appendChild(moveBtn);
 
             row.innerHTML = `
-                <td class="col-task" contenteditable="true" data-field="task">${task.task}</td>
-                <td class="col-notes" contenteditable="true" data-field="notes">${task.notes}</td>
+                <td class="fui-TableCell fui-TableCell-task col-task" contenteditable="true" data-field="task">${task.task}</td>
+                <td class="fui-TableCell col-notes" contenteditable="true" data-field="notes">${task.notes}</td>
             `;
             row.appendChild(actionCell);
 
