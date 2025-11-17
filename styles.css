@@ -1,114 +1,136 @@
-/* App-specific styles using Frosted UI design system */
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: #0a0a1a;
-    height: 100vh;
-    overflow: hidden;
-    perspective: 1000px;
-    position: relative;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-/* Galaxy Holo Background - Based on pokemon-cards-css cosmos holo */
-.galaxy-background {
-    --space: 4%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    background: #0a0a1a;
+body {
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace;
+    background: #000000;
+    color: #cccccc;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Main shine layer - exactly matching original cosmos holo */
-.galaxy-background::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        url("cosmos-bottom.png"),
-        repeating-linear-gradient(
-            82deg,
-            hsl(53, 65%, 60%) calc(var(--space)*1),
-            hsl(93, 56%, 50%) calc(var(--space)*2),
-            hsl(176, 54%, 49%) calc(var(--space)*3),
-            hsl(228, 59%, 55%) calc(var(--space)*4),
-            hsl(283, 60%, 55%) calc(var(--space)*5),
-            hsl(326, 59%, 51%) calc(var(--space)*6),
-            hsl(326, 59%, 51%) calc(var(--space)*7),
-            hsl(283, 60%, 55%) calc(var(--space)*8),
-            hsl(228, 59%, 55%) calc(var(--space)*9),
-            hsl(176, 54%, 49%) calc(var(--space)*10),
-            hsl(93, 56%, 50%) calc(var(--space)*11),
-            hsl(53, 65%, 60%) calc(var(--space)*12)
-        ),
-        radial-gradient(
-            farthest-corner circle at var(--mx, 50%) var(--my, 50%),
-            hsla(180, 100%, 89%, 0.5) 5%,
-            hsla(180, 14%, 57%, 0.3) 40%,
-            hsl(0, 0%, 0%) 130%
-        );
-    background-blend-mode: color-burn, multiply;
-    background-position:
-        center center,
-        calc(10% + (var(--pointer-from-left, 0.5) * 80%)) calc(10% + (var(--pointer-from-top, 0.5) * 80%)),
-        center center;
-    background-size: cover, 400% 900%, cover;
-    filter: brightness(1) contrast(1) saturate(0.8);
-    mix-blend-mode: color-dodge;
-    pointer-events: none;
-}
-
-/* Glare layer that follows mouse */
-.galaxy-background::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        radial-gradient(
-            farthest-corner circle at var(--mx, 50%) var(--my, 50%),
-            hsla(204, 100%, 95%, 0.8) 5%,
-            hsla(250, 15%, 20%, 1) 150%
-        );
-    filter: brightness(0.75) contrast(2) saturate(2);
-    mix-blend-mode: overlay;
-    opacity: calc(0.25 + var(--pointer-from-center, 0.5));
-    pointer-events: none;
-}
-
-.frosted-ui {
+.app-container {
+    max-width: 1400px;
+    margin: 0 auto;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: transform 0.1s ease-out;
+    padding: 80px 40px 0 40px;
+}
+
+.frosted-glass {
+    background: transparent;
+}
+
+.tabs-container {
+    display: flex;
+    gap: 0;
+    padding: 0;
+    margin: 0 auto 60px auto;
+    max-width: 800px;
+    background: transparent;
+    border: 1px solid #ffffff;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 20px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid #ffffff;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: normal;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: background 0.2s ease;
+}
+
+.tab-button:last-child {
+    border-right: none;
+}
+
+.tab-button:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-button.active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.table-container {
+    flex: 1;
+    overflow: hidden;
     position: relative;
-    z-index: 1;
+    margin-bottom: 80px;
 }
 
-/* Tabs styling */
-.fui-TabsList {
-    margin-bottom: 0;
-    flex-shrink: 0;
-}
-
-/* Tab content */
 .tab-content {
     display: none;
-    flex: 1;
+    height: 100%;
     overflow-y: auto;
+    padding-bottom: 40px;
 }
 
 .tab-content.active {
     display: block;
+}
+
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.task-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #000000;
+}
+
+.task-table th {
+    background: #000000;
+    padding: 20px 30px;
+    text-align: left;
+    font-weight: normal;
+    color: #cccccc;
+    border-bottom: none;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace;
+    font-size: 14px;
+}
+
+.task-table td {
+    padding: 20px 30px;
+    border-bottom: none;
+    color: #cccccc;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace;
+    font-size: 14px;
+}
+
+.task-table tr {
+    transition: background 0.1s ease;
+}
+
+.task-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.task-table tbody tr.focused {
+    background: rgba(255, 255, 255, 0.05);
+    outline: none;
+}
+
+.task-table tbody tr.done td {
+    opacity: 0.4;
+}
+
+.task-table tbody tr.done .col-task {
+    text-decoration: line-through;
 }
 
 /* Column widths */
@@ -141,53 +163,115 @@ body {
     width: 140px;
 }
 
-/* Date styling using frosted-ui utilities */
+/* Editable cells */
+td[contenteditable="true"] {
+    cursor: text;
+    outline: none;
+}
+
+td[contenteditable="true"]:focus {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Date styling */
 .date-today {
-    color: #ffd700;
-    font-weight: var(--font-weight-medium);
+    color: #cccccc;
+    font-weight: normal;
 }
 
 .date-tomorrow {
-    color: #90ee90;
-    font-weight: var(--font-weight-medium);
+    color: #cccccc;
+    font-weight: normal;
 }
 
 .date-overdue {
-    color: #ff6b6b;
-    font-weight: var(--font-weight-medium);
+    color: #ff0000;
+    font-weight: normal;
+    background: linear-gradient(45deg, #ff0000, #ff3366, #ff0099, #cc00ff, #ff0000);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: holographic 3s ease infinite;
+}
+
+@keyframes holographic {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* Move to actions button */
 .move-to-actions-btn {
-    padding: var(--space-1) var(--space-3);
-    background: var(--accent-a3);
-    border: 1px solid var(--accent-a5);
-    border-radius: var(--radius-3);
-    color: var(--gray-12);
+    padding: 4px 8px;
+    background: transparent;
+    border: 1px solid #666666;
+    color: #cccccc;
     cursor: pointer;
-    font-size: var(--font-size-1);
-    font-weight: var(--font-weight-medium);
+    font-size: 11px;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace;
     opacity: 0;
-    transition: all 0.15s ease;
+    transition: opacity 0.2s ease;
 }
 
-.fui-TableRow:hover .move-to-actions-btn,
-.fui-TableRow.focused .move-to-actions-btn {
+.task-table tbody tr:hover .move-to-actions-btn,
+.task-table tbody tr.focused .move-to-actions-btn {
     opacity: 1;
 }
 
 .move-to-actions-btn:hover {
-    background: var(--accent-a4);
-    border-color: var(--accent-a6);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #ffffff;
 }
 
-/* Input field at bottom */
+/* Input container */
+.input-container {
+    padding: 20px 0;
+    background: transparent;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000000;
+}
+
 #command-input {
-    margin-top: 0;
-    flex-shrink: 0;
+    width: calc(100% - 80px);
+    max-width: 1320px;
+    margin: 0 auto;
+    display: block;
+    padding: 16px 20px;
+    background: transparent;
+    border: none;
+    border-top: 1px solid #333333;
+    color: #666666;
+    font-size: 14px;
+    font-family: 'Anonymous Pro', 'Courier New', Courier, monospace;
+    outline: none;
 }
 
-/* Animation for task appearance */
-.fui-TableRow {
-    animation: fui-slide-up 0.2s ease-out;
+#command-input:focus {
+    background: transparent;
+    color: #cccccc;
+}
+
+#command-input::placeholder {
+    color: #ffffff;
+}
+
+/* Scrollbar styling */
+.tab-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tab-content::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+.tab-content::-webkit-scrollbar-thumb {
+    background: #333333;
+}
+
+.tab-content::-webkit-scrollbar-thumb:hover {
+    background: #444444;
 }

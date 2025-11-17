@@ -16,13 +16,12 @@ class TaskManager {
     init() {
         this.loadTasks();
         this.setupEventListeners();
-        this.setupParallaxEffect();
         this.renderTasks();
     }
 
     setupEventListeners() {
         // Tab navigation
-        document.querySelectorAll('.fui-TabsTrigger').forEach(button => {
+        document.querySelectorAll('.tab-button').forEach(button => {
             button.addEventListener('click', (e) => {
                 this.switchTab(e.target.dataset.tab);
             });
@@ -49,50 +48,6 @@ class TaskManager {
                 !e.target.hasAttribute('contenteditable')) {
                 this.clearFocus();
             }
-        });
-    }
-
-    setupParallaxEffect() {
-        const app = document.querySelector('.frosted-ui');
-        const galaxyBg = document.querySelector('.galaxy-background');
-
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-
-            // Parallax tilt effect
-            const rotateX = (y - 0.5) * 10; // -5 to 5 degrees
-            const rotateY = (x - 0.5) * -10; // -5 to 5 degrees
-
-            app.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-
-            // Galaxy holo effect - update CSS variables for mouse position
-            const mx = (x * 100).toFixed(1);
-            const my = (y * 100).toFixed(1);
-
-            galaxyBg.style.setProperty('--mx', `${mx}%`);
-            galaxyBg.style.setProperty('--my', `${my}%`);
-
-            // Additional variables used by cosmos holo effect
-            galaxyBg.style.setProperty('--pointer-from-left', x.toFixed(3));
-            galaxyBg.style.setProperty('--pointer-from-top', y.toFixed(3));
-
-            // Calculate distance from center (0 at center, 1 at corners)
-            const dx = x - 0.5;
-            const dy = y - 0.5;
-            const distanceFromCenter = Math.sqrt(dx * dx + dy * dy) * Math.sqrt(2);
-            galaxyBg.style.setProperty('--pointer-from-center', distanceFromCenter.toFixed(3));
-        });
-
-        document.addEventListener('mouseleave', () => {
-            app.style.transform = 'rotateX(0deg) rotateY(0deg)';
-
-            // Reset galaxy effect to center
-            galaxyBg.style.setProperty('--mx', '50%');
-            galaxyBg.style.setProperty('--my', '50%');
-            galaxyBg.style.setProperty('--pointer-from-left', '0.5');
-            galaxyBg.style.setProperty('--pointer-from-top', '0.5');
-            galaxyBg.style.setProperty('--pointer-from-center', '0');
         });
     }
 
@@ -143,7 +98,7 @@ class TaskManager {
 
     switchTab(tabName) {
         // Update tab buttons
-        document.querySelectorAll('.fui-TabsTrigger').forEach(btn => {
+        document.querySelectorAll('.tab-button').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.tab === tabName);
         });
 
@@ -172,7 +127,7 @@ class TaskManager {
 
     moveFocus(direction) {
         const tbody = document.querySelector(`#${this.currentTab}-body`);
-        const rows = Array.from(tbody.querySelectorAll('.fui-TableRow'));
+        const rows = Array.from(tbody.querySelectorAll('tr'));
 
         if (rows.length === 0) return;
 
@@ -196,7 +151,7 @@ class TaskManager {
     }
 
     clearFocus() {
-        const rows = document.querySelectorAll('.fui-TableBody .fui-TableRow');
+        const rows = document.querySelectorAll('.task-table tbody tr');
         rows.forEach(row => row.classList.remove('focused'));
         this.focusedRowIndex = -1;
     }
@@ -226,7 +181,7 @@ class TaskManager {
 
             if (this.focusedRowIndex >= 0) {
                 setTimeout(() => {
-                    const rows = document.querySelectorAll(`#${this.currentTab}-body .fui-TableRow`);
+                    const rows = document.querySelectorAll(`#${this.currentTab}-body tr`);
                     if (rows[this.focusedRowIndex]) {
                         rows[this.focusedRowIndex].classList.add('focused');
                     }
@@ -290,7 +245,7 @@ class TaskManager {
 
         this.tasks['next-actions'].forEach((task, index) => {
             const row = document.createElement('tr');
-            row.className = `fui-TableRow ${task.state === 'done' ? 'done' : ''}`;
+            row.className = task.state === 'done' ? 'done' : '';
 
             const dateDisplay = DateParser.getDateDisplay(task.date);
             const isOverdue = DateParser.isOverdue(task.date);
@@ -303,10 +258,10 @@ class TaskManager {
             }
 
             row.innerHTML = `
-                <td class="fui-TableCell col-date ${dateClass}" contenteditable="true" data-field="date">${dateDisplay}</td>
-                <td class="fui-TableCell fui-TableCell-task col-task" contenteditable="true" data-field="task">${task.task}</td>
-                <td class="fui-TableCell col-time" contenteditable="true" data-field="time">${task.time}</td>
-                <td class="fui-TableCell col-project" contenteditable="true" data-field="project">${task.project}</td>
+                <td class="col-date ${dateClass}" contenteditable="true" data-field="date">${dateDisplay}</td>
+                <td class="col-task" contenteditable="true" data-field="task">${task.task}</td>
+                <td class="col-time" contenteditable="true" data-field="time">${task.time}</td>
+                <td class="col-project" contenteditable="true" data-field="project">${task.project}</td>
             `;
 
             this.setupCellEditing(row, 'next-actions', index);
@@ -320,12 +275,12 @@ class TaskManager {
 
         this.tasks['waiting-on'].forEach((task, index) => {
             const row = document.createElement('tr');
-            row.className = `fui-TableRow ${task.state === 'done' ? 'done' : ''}`;
+            row.className = task.state === 'done' ? 'done' : '';
 
             row.innerHTML = `
-                <td class="fui-TableCell col-followup" contenteditable="true" data-field="followUp">${task.followUp}</td>
-                <td class="fui-TableCell fui-TableCell-task col-task" contenteditable="true" data-field="task">${task.task}</td>
-                <td class="fui-TableCell col-notes" contenteditable="true" data-field="notes">${task.notes}</td>
+                <td class="col-followup" contenteditable="true" data-field="followUp">${task.followUp}</td>
+                <td class="col-task" contenteditable="true" data-field="task">${task.task}</td>
+                <td class="col-notes" contenteditable="true" data-field="notes">${task.notes}</td>
             `;
 
             this.setupCellEditing(row, 'waiting-on', index);
@@ -339,19 +294,19 @@ class TaskManager {
 
         this.tasks['someday-maybe'].forEach((task, index) => {
             const row = document.createElement('tr');
-            row.className = `fui-TableRow ${task.state === 'done' ? 'done' : ''}`;
+            row.className = task.state === 'done' ? 'done' : '';
 
             const actionCell = document.createElement('td');
-            actionCell.className = 'fui-TableCell col-action';
+            actionCell.className = 'col-action';
             const moveBtn = document.createElement('button');
-            moveBtn.className = 'move-to-actions-btn fui-Button fui-variant-soft';
+            moveBtn.className = 'move-to-actions-btn';
             moveBtn.textContent = 'Move to Actions';
             moveBtn.onclick = () => this.moveToActions(index);
             actionCell.appendChild(moveBtn);
 
             row.innerHTML = `
-                <td class="fui-TableCell fui-TableCell-task col-task" contenteditable="true" data-field="task">${task.task}</td>
-                <td class="fui-TableCell col-notes" contenteditable="true" data-field="notes">${task.notes}</td>
+                <td class="col-task" contenteditable="true" data-field="task">${task.task}</td>
+                <td class="col-notes" contenteditable="true" data-field="notes">${task.notes}</td>
             `;
             row.appendChild(actionCell);
 
