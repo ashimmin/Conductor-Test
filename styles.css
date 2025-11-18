@@ -6,10 +6,107 @@
 
 body {
     font-family: 'Anonymous Pro', 'Courier New', Courier, monospace;
-    background: #000000;
+    background: #0a0a0f;
     color: #cccccc;
     height: 100vh;
     overflow: hidden;
+    position: relative;
+    transform:
+        perspective(2000px)
+        rotateX(var(--tilt-y, 0deg))
+        rotateY(var(--tilt-x, 0deg))
+        translateZ(0);
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+}
+
+/* Galaxy foil - Bottom layer */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -3;
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            0deg,
+            rgba(255, 0, 255, 0.8) 0%,
+            rgba(0, 255, 255, 0.8) 25%,
+            rgba(255, 255, 0, 0.8) 50%,
+            rgba(255, 0, 0, 0.8) 75%,
+            rgba(255, 0, 255, 0.8) 100%
+        );
+
+    background-blend-mode: multiply;
+    background-size: 100% 100%;
+    background-position: center;
+
+    mask-image:
+        url('glitter1.png'),
+        url('glitter2.png'),
+        url('glitter3.png');
+    mask-size: 25% auto, 30% auto, 28% auto;
+    mask-position: 0% 0%, var(--glitter-x, 0%) var(--glitter-y, 0%), var(--glitter-x2, 100%) var(--glitter-y2, 100%);
+    mask-composite: add;
+    -webkit-mask-image:
+        url('glitter1.png'),
+        url('glitter2.png'),
+        url('glitter3.png');
+    -webkit-mask-size: 25% auto, 30% auto, 28% auto;
+    -webkit-mask-position: 0% 0%, var(--glitter-x, 0%) var(--glitter-y, 0%), var(--glitter-x2, 100%) var(--glitter-y2, 100%);
+    -webkit-mask-composite: source-over;
+
+    mix-blend-mode: screen;
+    opacity: 0.8;
+    transform: translate(var(--bg-parallax-x, 0), var(--bg-parallax-y, 0));
+    transition: transform 0.15s ease-out;
+}
+
+/* Galaxy foil - Middle layer with diagonal stripes */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -2;
+    pointer-events: none;
+
+    background-image:
+        repeating-linear-gradient(
+            45deg,
+            transparent 0px,
+            rgba(255, 255, 255, 0.3) 20px,
+            transparent 40px
+        );
+
+    background-size: 100px 100px;
+    background-position: center;
+
+    mask-image:
+        url('glitter2.png'),
+        url('glitter3.png');
+    mask-size: 35% auto, 32% auto;
+    mask-position: var(--glitter-x, 0%) var(--glitter-y, 0%), var(--glitter-x2, 100%) var(--glitter-y2, 100%);
+    mask-composite: add;
+    -webkit-mask-image:
+        url('glitter2.png'),
+        url('glitter3.png');
+    -webkit-mask-size: 35% auto, 32% auto;
+    -webkit-mask-position: var(--glitter-x, 0%) var(--glitter-y, 0%), var(--glitter-x2, 100%) var(--glitter-y2, 100%);
+    -webkit-mask-composite: source-over;
+
+    mix-blend-mode: overlay;
+    opacity: 0.7;
+    transform: translate(var(--bg-parallax-x, 0), var(--bg-parallax-y, 0));
+    transition: transform 0.15s ease-out;
 }
 
 .app-container {
@@ -19,6 +116,65 @@ body {
     display: flex;
     flex-direction: column;
     padding: 80px 40px 0 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Galaxy foil - Top layer with cursor tracking */
+.app-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image:
+        radial-gradient(
+            circle at var(--mx, 50%) var(--my, 50%),
+            rgba(255, 255, 255, 0.6) 0%,
+            rgba(255, 255, 255, 0.2) 30%,
+            transparent 60%
+        );
+
+    background-size: 100% 100%;
+    background-position: center;
+
+    mask-image: url('glitter3.png');
+    mask-size: 30% auto;
+    mask-position: var(--glitter-x2, 50%) var(--glitter-y2, 50%);
+    -webkit-mask-image: url('glitter3.png');
+    -webkit-mask-size: 30% auto;
+    -webkit-mask-position: var(--glitter-x2, 50%) var(--glitter-y2, 50%);
+
+    filter: brightness(1.25) contrast(1.75) saturate(0.8);
+    mix-blend-mode: soft-light;
+    opacity: 0.6;
+}
+
+/* Holographic glare effect */
+.app-container::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    pointer-events: none;
+
+    background-image:
+        radial-gradient(
+            farthest-corner circle at var(--mx, 50%) var(--my, 50%),
+            hsla(204, 100%, 95%, 0.8) 5%,
+            hsla(250, 15%, 20%, 1) 150%
+        );
+
+    filter: brightness(0.75) contrast(2.5) saturate(2);
+    mix-blend-mode: overlay;
+    opacity: calc(0.25 + var(--pointer-from-center, 0.5));
 }
 
 .frosted-glass {

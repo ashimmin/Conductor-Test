@@ -404,4 +404,52 @@ class TaskManager {
 // Initialize the app
 document.addEventListener('DOMContentLoaded', () => {
     window.taskManager = new TaskManager();
+
+    // Add holographic background mouse tracking with tilt effect
+    document.addEventListener('mousemove', (e) => {
+        const mx = (e.clientX / window.innerWidth) * 100;
+        const my = (e.clientY / window.innerHeight) * 100;
+
+        // Normalized position from center (-1 to 1)
+        const centerX = (e.clientX / window.innerWidth - 0.5) * 2;
+        const centerY = (e.clientY / window.innerHeight - 0.5) * 2;
+
+        // Calculate distance from center for glare effect
+        const fromLeft = e.clientX / window.innerWidth;
+        const fromTop = e.clientY / window.innerHeight;
+        const fromCenter = Math.sqrt(
+            Math.pow(fromLeft - 0.5, 2) + Math.pow(fromTop - 0.5, 2)
+        ) * 2; // Normalize to 0-1 range
+
+        // Mouse position for holographic effect
+        document.body.style.setProperty('--mx', `${mx}%`);
+        document.body.style.setProperty('--my', `${my}%`);
+        document.body.style.setProperty('--pointer-from-left', fromLeft);
+        document.body.style.setProperty('--pointer-from-top', fromTop);
+        document.body.style.setProperty('--pointer-from-center', fromCenter);
+
+        // Glitter texture positions (move with mouse for parallax sparkle effect)
+        const glitterX = mx * 0.3; // Slower movement for depth
+        const glitterY = my * 0.3;
+        const glitterX2 = 100 - (mx * 0.2); // Opposite direction
+        const glitterY2 = 100 - (my * 0.2);
+        document.body.style.setProperty('--glitter-x', `${glitterX}%`);
+        document.body.style.setProperty('--glitter-y', `${glitterY}%`);
+        document.body.style.setProperty('--glitter-x2', `${glitterX2}%`);
+        document.body.style.setProperty('--glitter-y2', `${glitterY2}%`);
+
+        // Tilt effect for body (like tilting a card)
+        const tiltStrength = 3; // degrees
+        const tiltX = centerX * tiltStrength; // Y-axis rotation
+        const tiltY = -centerY * tiltStrength; // X-axis rotation (inverted)
+        document.body.style.setProperty('--tilt-x', `${tiltX}deg`);
+        document.body.style.setProperty('--tilt-y', `${tiltY}deg`);
+
+        // Background parallax (opposite direction, more pronounced)
+        const bgParallaxStrength = 20; // pixels
+        const bgParallaxX = -centerX * bgParallaxStrength;
+        const bgParallaxY = -centerY * bgParallaxStrength;
+        document.body.style.setProperty('--bg-parallax-x', `${bgParallaxX}px`);
+        document.body.style.setProperty('--bg-parallax-y', `${bgParallaxY}px`);
+    });
 });
